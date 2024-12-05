@@ -1,4 +1,4 @@
-package com.example.cryptoapp.data.model
+package com.example.cryptoapp.data.network.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,24 +6,9 @@ import com.example.cryptoapp.data.network.ApiFactory.BASE_IMAGE_URL
 import com.example.cryptoapp.utils.convertTimestampToTime
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-tvPrice.text = it.price
-tvMinPrice.text = it.lowDay
-tvMaxPrice.text = it.highDay
-tvLastMarket.text = it.lastMarket
-tvLastUpdate.text = it.getFormattedTime()
-tvFromSymbol.text = it.fromSymbol
-tvToSymbol.text = it.toSymbol
-Picasso.get().load(it.getFullImageUrl()).into(ivLogoCoin)
-
-tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
-tvPrice.text = price
-tvLastUpdate.text = String.format(lastUpdateTemplate, getFormattedTime())
-Picasso.get().load(getFullImageUrl()).into(ivLogoCoin)
-itemView.setOnClickListener {
-    onCoinClickListener?.onCoinClick(this)
 
 @Entity(tableName = "full_price_list")
-data class CoinPriceInfo(
+data class CoinInfoDto(
     @SerializedName("TYPE")
     @Expose
     val type: String?,
@@ -33,19 +18,19 @@ data class CoinPriceInfo(
     @PrimaryKey
     @SerializedName("FROMSYMBOL")
     @Expose
-
+    val fromSymbol: String,
     @SerializedName("TOSYMBOL")
     @Expose
-
+    val toSymbol: String?,
     @SerializedName("FLAGS")
     @Expose
     val flags: String?,
     @SerializedName("PRICE")
     @Expose
-
+    val price: String?,
     @SerializedName("LASTUPDATE")
     @Expose
-
+    val lastUpdate: Long?,
     @SerializedName("LASTVOLUME")
     @Expose
     val lastVolume: String?,
@@ -72,10 +57,10 @@ data class CoinPriceInfo(
     val openDay: String?,
     @SerializedName("HIGHDAY")
     @Expose
-
+    val highDay: String?,
     @SerializedName("LOWDAY")
     @Expose
-
+    val lowDay: String?,
     @SerializedName("OPEN24HOUR")
     @Expose
     val open24Hour: String?,
@@ -87,7 +72,7 @@ data class CoinPriceInfo(
     val low24Hour: String?,
     @SerializedName("LASTMARKET")
     @Expose
-
+    val lastMarket: String?,
     @SerializedName("VOLUMEHOUR")
     @Expose
     val volumeHour: String?,
@@ -141,7 +126,7 @@ data class CoinPriceInfo(
     val totalTopTierVolume24HourTo: String?,
     @SerializedName("IMAGEURL")
     @Expose
-
+    val imageUrl: String?
 ) {
     fun getFormattedTime(): String {
         return convertTimestampToTime(lastUpdate)
